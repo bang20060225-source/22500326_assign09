@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script>
+        //js object 생성
+        const student = {
+            name:"Ailce",
+            age:20
+        };
+        //문자열 변환
+        const jsonText = JSON.stringify(student);
+        //객체로 생성
+        const restored = JSON.parse(jsonText);
+
+        console.log(restored.name);
+    </script>
+</head>
+<body>
+    
+</body>
+</html>

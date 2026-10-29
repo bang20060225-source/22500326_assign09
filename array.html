@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script>
+        /*
+        const score = [70, 80, 90];
+        score.forEach(score => {
+            console.log(score);
+        });
+
+        const updated = score.map(score => score + 5);
+        console.log(updated);
+        */
+
+        /*
+        foreach() 사용
+        const names = [];
+        students.forEach(function(student){
+            names.push(student.name);
+        });
+        console.log(names);
+
+        map() 사용
+        const names = students.map(function(student){
+            return student.name;
+        });
+        console.log(names);
+        */
+       const students = [
+        { id: 1, name: "Kim", score: 85},
+        { id: 2, name: "Lee", score: 92},
+        { id: 3, name: "Park", score: 78},
+        { id: 4, name: "Choi", score: 92}
+       ];
+
+       const students = students.find(function(student){
+        return student.name === "Lee";
+       });
+       console.log(student);
+
+       const result
+    </script>
+</head>
+<body>
+    
+</body>
+</html>
