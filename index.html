@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Bookshelf | 도서 관리 서비스</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a href="index.html" class="brand">📚 My Bookshelf</a>
+    <nav>
+      <a href="index.html" class="active">홈</a>
+      <a href="crud.html">도서 관리</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="hero card">
+      <h1>나만의 독서 기록장</h1>
+      <p>읽고 싶은 책, 읽은 책을 등록하고 관리하는 도서 관리 서비스입니다.<br>
+        데이터는 브라우저 메모리가 아닌 <strong>MockAPI(REST API) 서버</strong>에 저장되어 새로고침해도 유지됩니다.</p>
+      <a href="crud.html" class="btn primary large">도서 관리 시작하기 →</a>
+    </section>
+
+    <section class="features">
+      <article class="card feature">
+        <h3>GET</h3>
+        <p>시작 시 서버에서 도서 목록을 불러와 표로 보여줍니다.</p>
+      </article>
+      <article class="card feature">
+        <h3>POST</h3>
+        <p>입력 검증을 통과한 새 도서를 서버에 추가합니다.</p>
+      </article>
+      <article class="card feature">
+        <h3>PATCH</h3>
+        <p>기존 데이터를 불러와 폼에서 수정하고 서버에 반영합니다.</p>
+      </article>
+      <article class="card feature">
+        <h3>DELETE</h3>
+        <p>삭제 확인(confirm) 후 서버에서 도서를 삭제합니다.</p>
+      </article>
+    </section>
+
+    <section class="card">
+      <h2>데이터 흐름</h2>
+      <ol class="flow">
+        <li>HTML Form</li>
+        <li>JS Event / Validation</li>
+        <li>fetch()</li>
+        <li>MockAPI (REST API)</li>
+        <li>JSON Response</li>
+        <li>DOM 화면 갱신</li>
+      </ol>
+    </section>
+  </main>
+
+  <footer class="footer">Open Source Studio · Week Assignment · Fetch API + MockAPI CRUD</footer>
+</body>
+</html>
