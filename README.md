@@ -3,12 +3,11 @@
 ## 1. Deployment
 
 | 항목 | URL |
-|---|---|
-| GitHub | https://github.com/ORG_NAME/REPO_NAME |
-| Vercel | https://REPO_NAME.vercel.app |
-| MockAPI Endpoint | https://YOUR_PROJECT_ID.mockapi.io/api/v1/books |
+| GitHub (제출) | https://github.com/2026-2-OSS/assign09-c01-22500326 |
+| GitHub (배포용) | https://github.com/bang20060225-source/22500326_assign09 |
+| Vercel | https://22500326assign09-git-main-bang20060225-source.vercel.app |
+| MockAPI Endpoint | https://6adea7b04e88f1bba4a54018.mockapi.io/books |
 
-> 비밀 키·비밀번호는 기록하지 않습니다. 공개 Endpoint이므로 가상 데이터만 사용합니다.
 
 ## 2. Service
 
