@@ -1,82 +1,66 @@
-# 📚 My Bookshelf — Fetch API + MockAPI CRUD
+# 도서 관리 CRUD (Fetch API + MockAPI)
 
 ## 1. Deployment
 
-| 항목 | URL |
+| 항목 | 주소 |
+|---|---|
 | GitHub (제출) | https://github.com/2026-2-OSS/assign09-c01-22500326 |
 | GitHub (배포용) | https://github.com/bang20060225-source/22500326_assign09 |
 | Vercel | https://22500326assign09-git-main-bang20060225-source.vercel.app |
-| MockAPI Endpoint | https://6adea7b04e88f1bba4a54018.mockapi.io/books |
-
+| MockAPI | https://6adea7b04e88f1bba4a54018.mockapi.io/books |
 
 ## 2. Service
 
-- **주제**: 도서 관리 (나만의 독서 기록장)
-- **Resource**: `books`
-- **Field (id 포함 7개)**
+- 주제: 도서 관리
+- Resource: `books`
+- Field (7개): id, title, author, genre, year, rating, isRead
 
-| Field | Type | 설명 |
+| 기능 | Method | 설명 |
 |---|---|---|
-| id | String (MockAPI 자동 생성) | 식별자 |
-| title | String | 제목 |
-| author | String | 저자 |
-| genre | String | 장르 (소설/에세이/자기계발/과학/IT/역사/기타) |
-| year | Number | 출판연도 |
-| rating | Number | 평점 (1~5) |
-| isRead | Boolean | 완독 여부 |
+| 목록 조회 | GET `/books` | 페이지에 들어오면 책 목록을 불러와서 표로 보여줌 |
+| 추가 | POST `/books` | 폼에 입력한 책을 서버에 저장 |
+| 수정 | PUT `/books/:id` | 수정 버튼을 누르면 기존 데이터를 불러오고, 고친 내용을 저장 |
+| 삭제 | DELETE `/books/:id` | confirm으로 한 번 확인하고 삭제 |
 
-- **CRUD 기능**
-
-| 기능 | Method | Endpoint | 동작 |
-|---|---|---|---|
-| Read | GET | `/books` | 페이지 시작 시 목록 조회 후 표로 출력 |
-| Read One | GET | `/books/:id` | 수정 버튼 클릭 시 기존 데이터를 불러와 폼에 채움 |
-| Create | POST | `/books` | 폼 검증 통과 시 추가 → 목록 재조회 |
-| Update | PATCH | `/books/:id` | 폼에서 수정한 값을 서버에 반영 → 목록 재조회 |
-| Delete | DELETE | `/books/:id` | `confirm()` 확인 후 삭제 → 목록 재조회 |
-
-- **Validation (Create·Update 공통 6가지)**
-  1. 제목 필수
-  2. 제목 50자 이하
-  3. 저자 필수
-  4. 장르 선택 필수
-  5. 출판연도 1000 ~ 올해 사이 정수
-  6. 평점 1~5 사이 정수
-- **검색**: 제목·저자 키워드 검색 + 장르 필터 (`filter()`)
-- **오류 처리**: `response.ok` 확인 후 실패 시 화면 상단에 오류 메시지, 성공 시 목록 갱신
-- **기타**: 요청 중 등록 버튼 비활성화(중복 클릭 방지)
-
-### 파일 구조
-```
-├── index.html      # 서비스 소개 + crud.html 이동
-├── crud.html       # 등록/수정 폼 + 목록/검색
-├── css/style.css
-└── js/app.js       # fetch CRUD, 검증, 검색, 화면 출력
-```
+- 검색: 제목/저자 검색, 장르 필터 (`filter()` 사용)
+- 입력 검사 (등록, 수정 둘 다 적용)
+  - 제목 필수, 50자 이하
+  - 저자 필수
+  - 장르 선택 필수
+  - 출판연도 1000 ~ 올해
+  - 평점 1 ~ 5
+- 기타: 요청 실패 시 오류 메시지, 불러오는 중 문구, 성공 메시지는 3초 뒤 사라짐
 
 ## 3. Key Learning
 
-1. **fetch() + response.ok**: fetch는 404·500 응답에도 Promise를 reject하지 않기 때문에 `response.ok`를 직접 확인하고 `throw`해야 `catch`에서 오류를 처리할 수 있다.
-2. **JSON 변환**: 요청 시 `JSON.stringify()`로 JS 객체를 JSON 문자열로 바꾸고 `Content-Type: application/json` 헤더를 붙이며, 응답은 `response.json()`으로 JS 값으로 바꾼다.
-3. **REST API와 PUT/PATCH, 그리고 CORS**: 같은 `/books/:id` URL이라도 HTTP Method(GET/PUT/DELETE)에 따라 동작이 달라진다. PUT은 리소스 전체 교체, PATCH는 일부 변경에 쓴다. 처음에는 PATCH로 구현했지만 MockAPI가 브라우저의 CORS 사전 요청에서 PATCH를 허용하지 않아 `Failed to fetch`가 발생했다. 폼이 모든 필드를 함께 보내므로 PUT으로 바꿔 해결했고, CORS는 서버 정책이라 클라이언트 코드만으로는 바꿀 수 없다는 점을 배웠다.
+1. fetch는 404나 500이 와도 catch로 넘어가지 않는다. 그래서 `response.ok`를 확인하고 직접 `throw` 해야 한다.
+2. 서버에 보낼 때는 `JSON.stringify()`로 문자열로 바꾸고, 받을 때는 `response.json()`으로 다시 객체로 바꾼다.
+3. PUT은 전체 수정, PATCH는 일부 수정이다. 처음에 PATCH를 썼는데 MockAPI에서 CORS 때문에 막혀서 PUT으로 바꿨다. CORS는 서버 쪽 설정이라 내 코드로는 못 바꾼다는 걸 알게 됐다.
 
 ## 4. AI / Search Usage
 
 | 항목 | 내용 |
 |---|---|
-| 도구 | (작성) |
-| 사용 목적 | (작성) |
-| 참고 또는 반영한 기능 | (작성) |
-| 직접 수정한 내용 | (작성) |
-| 배운 점 | (작성) |
-| **본인 추정 AI 코드 기여율** | **(작성) %** |
+| 도구 | Claude |
+| 사용 목적 | 과제 코드 작성, 오류 원인 찾기, Git / Vercel 사용법 |
+| 참고·반영한 기능 | CRUD 함수(fetch), 입력 검사, 검색, 로딩 문구, 메시지 자동 숨김, CSS, README 초안 |
+| 직접 한 것 | MockAPI 리소스 생성과 주소 연결, 수정 오류(PATCH) 확인 후 PUT으로 변경, 로컬·배포 테스트, 레포 구성과 Vercel 배포 |
+| 배운 점 | 코드를 받아서 붙이는 것보다 Network 탭에서 요청을 하나씩 확인하는 게 문제를 찾는 데 더 중요했다 |
+| 본인 추정 AI 코드 기여율 | 50% |
 
-- 검색 참고: MockAPI 공식 문서 (https://github.com/mockapi-io/docs/wiki) — PUT/PATCH 지원 여부 확인
+- 검색: MockAPI 공식 문서 (PUT/PATCH 지원 확인), Vercel 커뮤니티 (Organization Private 레포 배포 제한)
 
-## 5. Problem & Solution / Reflection
+## 5. Problem & Solution
 
 | 문제 | 해결 |
 |---|---|
-| (작성) | (작성) |
+| 수정 저장 시 `Failed to fetch` | MockAPI가 CORS에서 PATCH를 허용하지 않아서 PUT으로 변경 |
+| MockAPI 주소에 `/api/v1`이 필요한지 헷갈림 | 프로젝트에 prefix가 없어서 대시보드에 나온 주소 그대로 사용 |
+| `git push` 할 때 rejected 에러 | 같은 레포를 두 곳에 clone 해둔 게 원인. 새로 clone 해서 한 폴더에서만 작업 |
+| 커밋했는데 과제 파일이 안 올라감 | 파일이 다른 폴더에 복사돼 있었음. `git status`로 확인하고 다시 커밋 |
+| 엉뚱한 레포에 커밋됨 | VS Code가 다른 폴더를 열고 있었음. 커밋 전에 `pwd`, `git status` 확인 |
+| Vercel에서 Organization Private 레포 배포 안 됨 | 개인 레포를 remote로 추가해서 제출용, 배포용 두 곳에 push |
 
-**Reflection**: (작성)
+## 6. Reflection
+
+이전 과제는 배열에만 저장해서 새로고침하면 데이터가 사라졌는데, 이번에는 서버에 저장되니까 새로고침해도 남아 있는 게 신기했다. 코드보다 Git 폴더랑 레포를 헷갈려서 시간을 더 많이 썼다. 다음부터는 작업 전에 `pwd`랑 `git status`부터 확인해야겠다.
