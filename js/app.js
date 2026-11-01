@@ -1,7 +1,4 @@
-// 도서 관리 CRUD - Fetch API + MockAPI
-// 흐름: Form 입력 → 검증 → fetch() → MockAPI → JSON 응답 → 화면 갱신
-
-// 1. MockAPI 주소
+// 1. MockAPI 주소 (본인 Endpoint로 바꾸기)
 const API_URL = "https://6adea7b04e88f1bba4a54018.mockapi.io/books";
 
 // 서버에서 받아온 도서 목록 (화면 표시, 검색에만 사용 / 실제 저장은 MockAPI)
@@ -29,8 +26,13 @@ const reloadBtn = document.getElementById("reloadBtn");
 const messageBox = document.getElementById("message");
 
 
+
 // 3. READ (GET) - 목록 불러오기
 async function loadBooks() {
+  // 서버 응답이 오기 전까지 안내 문구 표시 (성공하면 renderBooks()가 덮어씀)
+  emptyText.textContent = "서버에서 불러오는 중...";
+  emptyText.hidden = false;
+
   try {
     const response = await fetch(API_URL);
 
@@ -42,6 +44,7 @@ async function loadBooks() {
     books = await response.json(); // JSON → JavaScript 배열
     searchBooks(); // 검색 조건을 적용해서 화면에 출력
   } catch (error) {
+    emptyText.textContent = "목록을 불러오지 못했습니다.";
     showMessage("오류: " + error.message, "error");
   }
 }
@@ -92,6 +95,7 @@ function addCell(tr, text) {
 
 
 // 4. CREATE (POST) - 도서 추가
+
 async function addBook(book) {
   const response = await fetch(API_URL, {
     method: "POST",
@@ -107,7 +111,8 @@ async function addBook(book) {
 }
 
 
-// 5. UPDATE (PATCH) - 도서 수정
+// 5. UPDATE (PUT) - 도서 수정
+
 
 // 수정 버튼 클릭 → 서버에서 해당 도서를 다시 불러와 폼에 채움
 async function startEdit(id) {
@@ -152,6 +157,7 @@ async function updateBook(id, book) {
 }
 
 
+
 // 6. DELETE - 도서 삭제
 async function deleteBook(id) {
   const response = await fetch(`${API_URL}/${id}`, {
@@ -182,6 +188,7 @@ async function removeBook(id, title) {
 
 
 // 7. 입력값 검증 (등록, 수정 둘 다 사용)
+
 function validateForm() {
   const title = titleInput.value.trim();
   const author = authorInput.value.trim();
@@ -216,7 +223,9 @@ function getFormData() {
   };
 }
 
+
 // 8. 검색 (filter 사용)
+
 function searchBooks() {
   const keyword = searchInput.value.trim();
   const genre = genreFilter.value;
@@ -231,7 +240,10 @@ function searchBooks() {
   renderBooks(result);
 }
 
+
+
 // 9. 이벤트 연결
+
 
 // 등록 / 수정 버튼 (폼 제출)
 form.addEventListener("submit", async (event) => {
@@ -269,7 +281,9 @@ genreFilter.addEventListener("change", searchBooks);
 reloadBtn.addEventListener("click", loadBooks);
 
 
+
 // 10. 기타 함수
+
 function resetForm() {
   form.reset();
   bookIdInput.value = "";
@@ -285,5 +299,4 @@ function showMessage(text, type) {
 }
 
 
-// 11. 페이지가 열리면 바로 목록 조회 (GET)
 loadBooks();
