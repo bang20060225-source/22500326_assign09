@@ -58,7 +58,7 @@
 
 1. **fetch() + response.ok**: fetch는 404·500 응답에도 Promise를 reject하지 않기 때문에 `response.ok`를 직접 확인하고 `throw`해야 `catch`에서 오류를 처리할 수 있다.
 2. **JSON 변환**: 요청 시 `JSON.stringify()`로 JS 객체를 JSON 문자열로 바꾸고 `Content-Type: application/json` 헤더를 붙이며, 응답은 `response.json()`으로 JS 값으로 바꾼다.
-3. **REST API와 PATCH/PUT**: 같은 `/books/:id` URL이라도 HTTP Method에 따라 조회·수정·삭제가 달라진다. PUT은 전체 교체, PATCH는 바꿀 필드만 보내는 부분 수정에 사용한다.
+3. **REST API와 PUT/PATCH, 그리고 CORS**: 같은 `/books/:id` URL이라도 HTTP Method(GET/PUT/DELETE)에 따라 동작이 달라진다. PUT은 리소스 전체 교체, PATCH는 일부 변경에 쓴다. 처음에는 PATCH로 구현했지만 MockAPI가 브라우저의 CORS 사전 요청에서 PATCH를 허용하지 않아 `Failed to fetch`가 발생했다. 폼이 모든 필드를 함께 보내므로 PUT으로 바꿔 해결했고, CORS는 서버 정책이라 클라이언트 코드만으로는 바꿀 수 없다는 점을 배웠다.
 
 ## 4. AI / Search Usage
 
